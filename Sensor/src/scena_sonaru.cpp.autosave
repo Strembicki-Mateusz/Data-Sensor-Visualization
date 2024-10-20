@@ -1,0 +1,119 @@
+#include "inc/scena_sonaru.hh"
+
+#include <iostream>
+
+/*!
+ * \brief Konstruktor klasy Scena_Sonaru
+ *
+ * Przypisuje początkowe wartości do pól przy tworzeniu obiektu klasy.
+ */
+Scena_Sonaru::Scena_Sonaru(QWidget *parent) : QWidget(parent)
+{
+    FlA = false;
+    FlB = false;
+    FlC = false;
+
+}
+/*!
+ * \brief Metoda przypisywania wartości do odpowiednich list
+ * 
+ * Metoda ta w zależności od wybranego umiejscowienia przypisuje odczyty z sonaru do listy. Nie wybrane umiejscowienia
+ * w liście odczytów mają zapisane 0, gdyż nie zbierają w tym czasie wyników. Dodatkowo powstała lista do pobierania wartości
+ * kąta orientacji urządzenia, aby móc sprawnie wyrysowywać punkty potrzebne do wizualizacji odczytów.
+ */
+void Scena_Sonaru::PrzypiszDoListy()
+{
+    if(FlA == true)
+    {
+        listaA.append(DaneSensora.WezOdleglosc());
+        listaB.append(0);
+        listaC.append(0);
+        if((DaneSensora.WezPozycje() == 90) && (!listaA.isEmpty()))
+        {
+            listaA.clear();
+            listaB.clear();
+            listaC.clear();
+        }
+    }
+    else if(FlB == true)
+    {
+        listaB.append(DaneSensora.WezOdleglosc());
+        listaA.append(0);
+        listaC.append(0);
+        if((DaneSensora.WezPozycje() == 90) && (!listaB.isEmpty()))
+        {
+            listaA.clear();
+            listaB.clear();
+            listaC.clear();
+        }
+    }
+    else if(FlC == true)
+    {
+        listaC.append(DaneSensora.WezOdleglosc());
+        listaB.append(0);
+        listaA.append(0);
+        if((DaneSensora.WezPozycje() == 90) && (!listaC.isEmpty()))
+        {
+            listaA.clear();
+            listaB.clear();
+            listaC.clear();
+        }
+    }
+
+    kat.prepend(DaneSensora.WezPozycje());
+    if((DaneSensora.WezPozycje() == 90) && (!kat.isEmpty()))
+    {
+        kat.clear();
+    }
+}
+
+/*!
+ * \brief Metoda virtualna redefiniująca metodę paintEvent
+ * \param event = zdarzenie
+ *
+ * W metodzie tej odrysowywane są linie, które wizualizują odległość w danej pozycji od przeszkody. Metoda ta korzysta z klasy QPainter
+ * do wyrysowywania odpowiednich kształtów. W tym przypadku są to linie. Metoda ta rozpoznaje również wybrane miejsce urządzenia
+ * i wyrysowuje pomiary dla odpowiednich umiejscowień przyrządu. Dodano również wyrysowywanie punktów (nie jest to dobra wizualizacja), które
+ * przedstawiają wykryte przeszkody na drodze czujnika ultradźwiękowego. 
+ */
+void Scena_Sonaru::paintEvent(QPaintEvent *event)
+{
+
+    QPainter Rysownik;
+    QImage Zielony(":/znaczki/ziel");
+    QImage Czerwony(":/znaczki/czer");
+    QImage Zolty(":/znaczki/zol");
+    
+
+    Rysownik.begin(this);
+    if(FlA == true)
+    {
+        Rysownik.translate(width()/4, height());
+        Rysownik.rotate(-45-DaneSensora.WezPozycje());
+        Rysownik.setPen(Qt::red);
+        Rysownik.drawLine(0,0,DaneSensora.WezOdleglosc()/5,0);
+        for(int i = 0; i<listaA.length(); ++i)
+            Rysownik.drawImage((int)(cos((kat[i])*6.28/360)*listaA[i]/5), (int)(sin((kat[i])*6.28/360)*listaA[i]/5)-5, Czerwony);
+    }
+    else if(FlB == true)
+    {
+        Rysownik.translate(width()/2, height());
+        Rysownik.rotate(-45-DaneSensora.WezPozycje());
+        Rysownik.setPen(Qt::green);
+        Rysownik.drawLine(0,0,DaneSensora.WezOdleglosc()/5,0);
+        for(int i = 0; i<listaB.length(); ++i)
+            Rysownik.drawImage((int)(cos((kat[i])*6.28/360)*listaB[i]/5), (int)(sin((kat[i])*6.28/360)*listaB[i]/5)-5, Zielony);
+    }
+    else if(FlC == true)
+    {
+        Rysownik.translate(3*width()/4, height());
+        Rysownik.rotate(-45-DaneSensora.WezPozycje());
+        Rysownik.setPen(Qt::yellow);
+        Rysownik.drawLine(0,0,DaneSensora.WezOdleglosc()/5,0);
+        for(int i = 0; i<listaC.length(); ++i)
+            Rysownik.drawImage((int)(cos((kat[i])*6.28/360)*listaC[i]/5), (int)(sin((kat[i])*6.28/360)*listaC[i]/5)-5, Zolty);
+        //Rysownik.translate(listaC[i],-5);
+    }
+
+    Rysownik.end();
+}

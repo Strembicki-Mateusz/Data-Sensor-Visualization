@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/serwo">
+        <file alias="serwo90">inne/res/serwo/serwo90.png</file>
+        <file alias="serwo85">inne/res/serwo/serwo85.png</file>
+        <file alias="serwo80">inne/res/serwo/serwo80.png</file>
+        <file alias="serwo75">inne/res/serwo/serwo75.png</file>
+        <file alias="serwo70">inne/res/serwo/serwo70.png</file>
+        <file alias="serwo65">inne/res/serwo/serwo65.png</file>
+        <file alias="serwo60">inne/res/serwo/serwo60.png</file>
+        <file alias="serwo55">inne/res/serwo/serwo55.png</file>
+        <file alias="serwo50">inne/res/serwo/serwo50.png</file>
+        <file alias="serwo45">inne/res/serwo/serwo45.png</file>
+        <file alias="serwo40">inne/res/serwo/serwo40.png</file>
+        <file alias="serwo35">inne/res/serwo/serwo35.png</file>
+        <file alias="serwo30">inne/res/serwo/serwo30.png</file>
+        <file alias="serwo25">inne/res/serwo/serwo25.png</file>
+        <file alias="serwo20">inne/res/serwo/serwo20.png</file>
+        <file alias="serwo15">inne/res/serwo/serwo15.png</file>
+        <file alias="serwo10">inne/res/serwo/serwo10.png</file>
+        <file alias="serwo5">inne/res/serwo/serwo5.png</file>
+        <file alias="serwo0">inne/res/serwo/serwo0.png</file>
+    </qresource>
+    <qresource prefix="/dioda">
+        <file alias="zielona">inne/res/dioda/zielona.png</file>
+        <file alias="czerwona">inne/res/dioda/czerwona.png</file>
+    </qresource>
+</RCC>
